@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,22 +9,35 @@
   <script src="/static/js/boggle.js" defer></script>
   <title>{% block title %}Boggle{% endblock %}</title>
 </head>
+
 <body>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="flash">{{msg}}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
   {% block content %}
-    <div class="board">
-      {% for row in board %}
-        <div class="board-row">
-          {% for tile in row %}
-            <div class="tile">{{tile}}</div>
-          {% endfor %}
-        </div>
+  <div class="board">
+    {% for row in board %}
+    <div class="board-row">
+      {% for tile in row %}
+      <div class="tile">{{tile}}</div>
       {% endfor %}
     </div>
-  {% endblock %}
+    {% endfor %}
+  </div>
   <form class="input-form">
     <label for="input-word">Enter a word from the board:</label>
-    <input type="text" id="input-word">
+    <input type="text" id="input-word" required>
     <button id="input-word-button">Submit</button>
   </form>
+  <div class="results">
+    <div id="score-container">Current score: <span id="score">0</span></div>
+    <div id="last-guess"></div>
+  </div>
+  {% endblock %}
 </body>
+
 </html>

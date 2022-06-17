@@ -29,3 +29,28 @@ class FlaskTests(TestCase):
             self.assertEqual(session["game"], game)
             client.get("/")
             self.assertEqual(session["game"], game)
+
+    def test_check_word_redirect(self):
+        """Test that an improper guess before loading the board
+            will redirect the user to the main page"""
+        with app.test_client() as client:
+            resp = client.get("/submit/word")
+            self.assertEqual(resp.status_code, 302)
+            self.assertEqual(resp.location, "/")
+
+    def test_check_word_submission(self):
+        """Test that a guess will return a json-type response, even
+            if the guess isn't a word"""
+        with app.test_client() as client:
+            resp = client.get("/")
+            resp = client.get("/submit/notarealword")
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.mimetype, "application/json")
+
+            resp = client.get("/submit/")
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.mimetype, "application/json")
+
+            resp = client.get("/submit/13!8")
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.mimetype, "application/json")
