@@ -8,6 +8,8 @@ boggle_game = Boggle()
 
 @app.route("/")
 def display_home():
+    """Shows the home page, either generating a new board or showing the
+        existing one stored in the session"""
     stored_game = session.get("game", None)
     if stored_game:
         return render_template("index.html", board = stored_game)
@@ -19,6 +21,8 @@ def display_home():
 @app.route("/submit/<word>")
 @app.route("/submit/")
 def check_word(word = "-1"):
+    """Validates the user-submitted word against the Boggle dictionary
+        and responds with the result"""
     current_game = session.get("game", None)
     if not current_game:
         flash("You tried to enter a guess before the board was ready!")
@@ -29,6 +33,8 @@ def check_word(word = "-1"):
 
 @app.route("/score", methods = ["POST"])
 def record_score():
+    """Records the user's score and responds with info about the 
+        highest score and the number of games played"""
     score = request.json.get("score")
     high_score = session.get("high_score", None)
     new_record = False
