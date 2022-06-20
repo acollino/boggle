@@ -1,13 +1,10 @@
 class Timer {
-  Timer(gameTime) {
+  constructor(gameTime) {
     this.gameTime = gameTime;
   }
 
   startCountdown() {
     this.interval = setInterval(this.updateTimer.bind(this), 1000);
-    window.addEventListener("load", () =>
-      setTimeout(Timer.disableInputs, GAME_TIME)
-    );
   }
 
   updateTimer() {
@@ -15,12 +12,13 @@ class Timer {
     timeDisplay.textContent = newTime;
     if (newTime === 0) {
       clearInterval(this.interval);
-      timeDisplay.textContent = "";
+      timeDisplay.textContent = "Time is up!"
+      Timer.disableInputs();
+      timeDisplay.dispatchEvent(new Event("timeUp"));
     }
   }
 
   static disableInputs() {
-    userMessage.textContent = "Time is up!";
     inputBox.setAttribute("disabled", "true");
     wordButton.setAttribute("disabled", "true");
   }

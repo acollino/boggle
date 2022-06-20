@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, session, jsonify, flash
+from flask import Flask, redirect, render_template, request, session, jsonify, flash
 from boggle import Boggle
 
 app = Flask(__name__)
@@ -26,3 +26,21 @@ def check_word(word = "-1"):
     else:
         result = boggle_game.check_valid_word(current_game, word)
         return jsonify(result)
+
+@app.route("/score", methods = ["POST"])
+def record_score():
+    score = request.json.get("score")
+    high_score = session.get("high_score", None)
+    new_record = False
+    if not high_score:
+        high_score = score
+    if score > high_score:
+        new_record = True
+        high_score = score
+    session["high_score"] = high_score
+    num_games = session.get("num_games", None)
+    if not num_games:
+        num_games = 0
+    num_games += 1
+    session["num_games"] = num_games
+    return jsonify({"highScore": high_score, "numGames": num_games, "newRecord": new_record})
