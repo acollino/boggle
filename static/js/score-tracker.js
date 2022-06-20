@@ -1,6 +1,7 @@
 class ScoreTracker {
   constructor() {
     this.score = 0;
+    this.wordList = [];
   }
 
   static checkGameOver() {
@@ -21,13 +22,18 @@ class ScoreTracker {
   }
 
   checkWordResponse(wordStatus, word) {
-    if (wordStatus === "ok") {
+    if (wordStatus === "ok" && !this.wordList.includes(word)) {
+      this.wordList.push(word);
       let score = word.length;
       let resultText = "Nice word!";
       if (score >= 4) {
         resultText = score > 6 ? "Amazing word!" : "Great word!";
       }
       this.updateScore(resultText, score);
+    } else if (this.wordList.includes(word)) {
+      this.updateScore(
+        "You already entered that word!"
+      );
     } else if (wordStatus === "not-on-board") {
       this.updateScore(
         "That was a good word, but it isn't on the Boggle board."
