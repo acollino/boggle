@@ -8,17 +8,18 @@
   <link rel="stylesheet" href="/static/css/board.css">
   <script src="/static/js/timer.js" defer></script>
   <script src="/static/js/score-tracker.js" defer></script>
+  <script src="/static/js/control-buttons.js" defer></script>
   <script src="/static/js/boggle.js" defer></script>
   <title>{% block title %}Boggle{% endblock %}</title>
 </head>
 
 <body>
   {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for msg in messages %}
-        <div class="flash">{{msg}}</div>
-      {% endfor %}
-    {% endif %}
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="flash">{{msg}}</div>
+  {% endfor %}
+  {% endif %}
   {% endwith %}
   {% block content %}
   <div class="board">
@@ -32,18 +33,23 @@
   </div>
   <form class="input-form">
     <label for="input-word">Enter a word from the board:</label>
-    <input type="text" id="input-word" required>
+    <input type="text" id="input-word" required autofocus>
     <button id="input-word-button">Submit</button>
   </form>
   <div class="results">
     <div id="score-container">
-      Current score: 
+      Current score:
       <span id="score">0</span>
-       | 
+      |
       <span id="message"></span>
     </div>
     <div id="timer"></div>
   </div>
+  <div class="control-buttons">
+    <button id="new">New Board</button>
+    <button id="restart">Restart</button>
+  </div>
+  <ul class="word-list">Your words:</ul>
   {% endblock %}
 </body>
 
