@@ -1,0 +1,67 @@
+body {
+  background-image: radial-gradient(farthest-side, lightblue, rgb(81, 81, 189));
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+}
+
+.grey-box {
+  background-color: rgb(108, 131, 160);
+  padding: 1rem;
+  border: 0.25rem rgb(54, 56, 61) solid;
+  border-radius: 0.5rem;
+}
+
+.results {
+  width: 38rem;
+  text-align: center;
+}
+
+.time-container {
+  margin: 3rem 0 0.5rem 0;
+  padding: 0.5rem;
+  background-color: rgb(20, 35, 124);
+  color: antiquewhite;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.control-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style-position: inside;
+  overflow: auto;
+  font-size: 1.25rem;
+}
+
+#new {
+  background-color: rgb(13, 179, 151);
+}
+
+#restart {
+  background-color: rgb(199, 37, 37);
+}
+
+#input-word-button {
+  background-color: rgb(14, 128, 44);
+}
+
+button {
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}

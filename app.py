@@ -41,9 +41,10 @@ def record_score():
     score = request.json.get("score")
     high_score = session.get("high_score", None)
     new_record = False
-    if not high_score or score > high_score:
-        new_record = True
+    if high_score is None or score > high_score:
         high_score = score
+        if not score == 0:
+            new_record = True
     session["high_score"] = high_score
     num_games = session.get("num_games", None)
     if not num_games:

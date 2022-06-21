@@ -1,18 +1,32 @@
 .board {
-  background-color: rgb(44, 104, 184);
+  background-color: rgb(29, 78, 137);
   width: fit-content;
+  padding: 0.75rem;
+  border-radius: 1rem;
 }
 
 .board-row {
   display: flex;
-  gap: 0.5rem;
-  padding: 0.25rem;
+  gap: 1rem;
+  padding: 0.5rem;
 }
 
 .tile {
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
   font-size: 4rem;
-  padding: 0 0.25rem;
+  box-sizing: border-box;
+  height: 4.5rem;
+  width: 4.5rem;
+  text-align: center;
   background-color: white;
+  border-radius: 0.5rem;
+}
+
+.central-content {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  height: 29rem;
+  margin-bottom:2rem;
 }
