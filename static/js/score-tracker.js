@@ -27,13 +27,11 @@ class ScoreTracker {
       let score = word.length;
       let resultText = "Nice word!";
       if (score >= 4) {
-        resultText = score > 6 ? "Amazing word!" : "Great word!";
+        resultText = score >= 6 ? "Amazing word!" : "Great word!";
       }
       this.updateScore(resultText, score);
     } else if (this.wordList.includes(word)) {
-      this.updateScore(
-        "You already entered that word!"
-      );
+      this.updateScore("You already entered that word!");
     } else if (wordStatus === "not-on-board") {
       this.updateScore(
         "That was a good word, but it isn't on the Boggle board."
@@ -60,15 +58,14 @@ class ScoreTracker {
     let targetURL = `${window.location.href}score`;
     let fetchObj = {
       method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ "score": this.score }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ score: this.score }),
     };
     let resp = await fetch(targetURL, fetchObj);
     if (resp.ok) {
       let scoreInfo = await resp.json();
       userMessage.textContent = this.interpretScore(scoreInfo);
-    }
-    else {
+    } else {
       console.log(resp.statusText);
     }
   }
@@ -78,12 +75,13 @@ class ScoreTracker {
     let message = "Thanks for playing!";
     if (newRecord) {
       message = "Wow, that's a new high score!";
-    }
-    else {
+    } else {
       message += ` Your high score on this board is ${highScore}.`;
     }
-    message += ` You've played ${numGames} games so far.`;
+    message +=
+      numGames == 1
+        ? ` You've played 1 game so far.`
+        : ` You've played ${numGames} games so far.`;
     return message;
   }
-
 }
