@@ -80,7 +80,7 @@ class ScoreTracker {
       message = "Wow, that's a new high score!";
     }
     else {
-      message += ` Your current high score is ${highScore}.`;
+      message += ` Your high score on this board is ${highScore}.`;
     }
     message += ` You've played ${numGames} games so far.`;
     return message;

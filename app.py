@@ -51,9 +51,25 @@ def record_score():
         num_games = 0
     num_games += 1
     session["num_games"] = num_games
-    return jsonify({"highScore": high_score, "numGames": num_games, "newRecord": new_record})
+    return jsonify({
+        "highScore": high_score,
+        "numGames": num_games,
+        "newRecord": new_record
+    })
+
 
 @app.route("/new")
 def new_board():
+    """Empties the session and loads the main page to generate
+        a new game board"""
     session.clear()
+    return redirect("/")
+
+
+@app.errorhandler(404)
+def reroute_home(error):
+    """In case the user tries to access a nonexistent page,
+        they will be redirected to the main page"""
+    flash("Sorry, something went wrong there!")
+    flash("You've been returned to the main page instead.")
     return redirect("/")

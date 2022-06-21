@@ -54,3 +54,65 @@ class FlaskTests(TestCase):
             resp = client.get("/submit/13!8")
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(resp.mimetype, "application/json")
+
+    def test_check_score_low_score(self):
+        """Test that a low final score will not update the high score
+        and will not change the newRecord bool"""
+        with app.test_client() as client:
+            with client.session_transaction() as current_session:
+                current_session["high_score"] = 5
+            resp = client.post("/score", json={
+                'score': 4, 
+            })
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.mimetype, "application/json")
+            self.assertIn('"highScore": 5', resp.get_data(as_text=True))
+            self.assertIn('"numGames": 1', resp.get_data(as_text=True))
+            self.assertIn('"newRecord": false', resp.get_data(as_text=True))
+
+    def test_check_score_high_score(self):
+        """Test that a higher final score will update the high score
+        and will change the newRecord bool to true"""
+        with app.test_client() as client:
+            with client.session_transaction() as current_session:
+                current_session["high_score"] = 5
+            resp = client.post("/score", json={
+                'score': 10, 
+            })
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.mimetype, "application/json")
+            self.assertIn('"highScore": 10', resp.get_data(as_text=True))
+            self.assertIn('"numGames": 1', resp.get_data(as_text=True))
+            self.assertIn('"newRecord": true', resp.get_data(as_text=True))
+    
+    def test_reset_page(self):
+        """Test that using the /new route will clear the game from 
+        the session and will redirect to the main page"""
+        with app.test_client() as client:
+            resp = client.get("/new")
+            self.assertEqual(resp.status_code, 302)
+            self.assertEqual(session.get("game", None), None)
+            self.assertEqual(session.__len__(), 0)
+            self.assertEqual(resp.location, "/")
+
+    def test_nonexistent_page(self):
+        """Test that accessing a page that doesn't exist will 
+            redirect the user to the home page"""
+        with app.test_client() as client:
+            resp = client.get("/realpage/realnumber")
+
+            self.assertEqual(resp.status_code, 302)
+            self.assertEqual(resp.location, "/")
+            
+    def test_nonexistent_page_follow(self):
+        """Test that accessing a page that doesn't exist will 
+            redirect the user to the home page, and that the
+            flashed messages display"""
+        with app.test_client() as client:
+            resp = client.get("/realpage/realnumber", follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Sorry", html)
+            self.assertIn("been returned", html)
+           
