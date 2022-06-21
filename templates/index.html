@@ -6,43 +6,55 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/css/board.css">
+  <link rel="stylesheet" href="/static/css/page.css">
   <script src="/static/js/timer.js" defer></script>
   <script src="/static/js/score-tracker.js" defer></script>
+  <script src="/static/js/control-buttons.js" defer></script>
   <script src="/static/js/boggle.js" defer></script>
   <title>{% block title %}Boggle{% endblock %}</title>
 </head>
 
 <body>
   {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for msg in messages %}
-        <div class="flash">{{msg}}</div>
-      {% endfor %}
-    {% endif %}
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="flash">{{msg}}</div>
+  {% endfor %}
+  {% endif %}
   {% endwith %}
   {% block content %}
-  <div class="board">
-    {% for row in board %}
-    <div class="board-row">
-      {% for tile in row %}
-      <div class="tile">{{tile}}</div>
+  <div class="time-container">Time Left: <span id="timer"></span></div>
+  <div class="central-content">
+    <div class="control-buttons grey-box">
+      <div>
+        <button id="new">New Board</button>
+        <button id="restart">Restart</button>
+      </div>
+      <span>Your words:</span>
+      <ul class="word-list"></ul>
+    </div>
+    <div class="board">
+      {% for row in board %}
+      <div class="board-row">
+        {% for tile in row %}
+        <div class="tile">{{tile}}</div>
+        {% endfor %}
+      </div>
       {% endfor %}
     </div>
-    {% endfor %}
   </div>
-  <form class="input-form">
-    <label for="input-word">Enter a word from the board:</label>
-    <input type="text" id="input-word" required>
-    <button id="input-word-button">Submit</button>
-  </form>
-  <div class="results">
+  <div class="grey-box results">
+    <form class="input-form">
+      <label for="input-word">Enter a word from the board:</label>
+      <input type="text" id="input-word" required autofocus>
+      <button id="input-word-button">Submit</button>
+    </form>
     <div id="score-container">
-      Current score: 
+      Current score:
       <span id="score">0</span>
-       | 
-      <span id="message"></span>
+      |
+      <span id="message">You haven't entered a word yet!</span>
     </div>
-    <div id="timer"></div>
   </div>
   {% endblock %}
 </body>

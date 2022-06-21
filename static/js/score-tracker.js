@@ -23,7 +23,7 @@ class ScoreTracker {
 
   checkWordResponse(wordStatus, word) {
     if (wordStatus === "ok" && !this.wordList.includes(word)) {
-      this.wordList.push(word);
+      this.addWord(word);
       let score = word.length;
       let resultText = "Nice word!";
       if (score >= 4) {
@@ -41,6 +41,13 @@ class ScoreTracker {
     } else {
       this.updateScore("Sorry, that word isn't in my dictionary!");
     }
+  }
+
+  addWord(word) {
+    this.wordList.push(word);
+    let listElement = document.createElement("li");
+    listElement.textContent = word;
+    userWords.append(listElement);
   }
 
   updateScore(msg, points = 0) {
@@ -73,7 +80,7 @@ class ScoreTracker {
       message = "Wow, that's a new high score!";
     }
     else {
-      message += ` Your current high score is ${highScore}.`;
+      message += ` Your high score on this board is ${highScore}.`;
     }
     message += ` You've played ${numGames} games so far.`;
     return message;

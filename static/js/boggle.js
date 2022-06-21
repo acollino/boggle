@@ -3,6 +3,7 @@ const inputBox = document.querySelector("#input-word");
 const userMessage = document.querySelector("#message");
 const userScore = document.querySelector("#score");
 const timeDisplay = document.querySelector("#timer");
+const userWords = document.querySelector(".word-list");
 
 const GAME_TIME = 60000;
 const START_TIME = performance.now();
