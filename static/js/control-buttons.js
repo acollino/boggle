@@ -14,7 +14,7 @@ restartButton.addEventListener("click", () => {
  This avoids a page refresh, but is more lengthy and convoluted,
  especially as more functions would be required to reset the 
  score and timer. 
- With a defined route for /new, could use:
+ With a defined route for /new, could get the JSON with:
   let targetURL = `${window.location.href}new`;
   let fetchObj = { method: "GET" };
   let resp = await fetch(targetURL, fetchObj);
