@@ -1,8 +1,9 @@
 from flask import Flask, redirect, render_template, request, session, jsonify, flash
 from boggle import Boggle
+import os
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "to be implemented"
+app.secret_key = os.getenv("SECRET_KEY", "dev_only_default")
 
 boggle_game = Boggle()
 
